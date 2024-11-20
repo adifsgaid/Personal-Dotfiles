@@ -124,3 +124,16 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 
 # Load local customizations if they exist
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# fzf configurations
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS="
+  --height 40%
+  --layout=reverse
+  --border
+  --preview 'bat --style=numbers --color=always --line-range :500 {}'
+"
+
+# fzf key bindings and completion
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
