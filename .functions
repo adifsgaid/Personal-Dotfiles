@@ -1,0 +1,136 @@
+# Bootstrap script for system configuration
+bootstrap() {
+    local action=$1
+    local platform=$(uname)
+    local backup_dir="$HOME/.config/backup/$(date +%Y%m%d_%H%M%S)"
+
+    # Create backup directory
+    mkdir -p "$backup_dir"
+
+    case "$action" in
+        "apply")
+            echo "📦 Applying system configurations..."
+            
+            # Backup existing configurations
+            backup_configs
+
+            if [ "$platform" = "Darwin" ]; then
+                apply_macos_configs
+            elif [ "$platform" = "Linux" ]; then
+                apply_linux_configs
+            else
+                echo "❌ Unsupported platform: $platform"
+                return 1
+            fi
+            ;;
+            
+        "rollback")
+            echo "⏮️  Rolling back to previous configuration..."
+            rollback_configs
+            ;;
+            
+        *)
+            echo "Usage: bootstrap [apply|rollback]"
+            return 1
+            ;;
+    esac
+}
+
+# Backup existing configurations
+backup_configs() {
+    echo "📑 Backing up existing configurations..."
+    
+    # Core configuration files
+    [ -f "$HOME/.zshrc" ] && cp "$HOME/.zshrc" "$backup_dir/"
+    [ -f "$HOME/.aliases" ] && cp "$HOME/.aliases" "$backup_dir/"
+    [ -f "$HOME/.functions" ] && cp "$HOME/.functions" "$backup_dir/"
+    [ -f "$HOME/.gitconfig" ] && cp "$HOME/.gitconfig" "$backup_dir/"
+    [ -f "$HOME/.p10k.zsh" ] && cp "$HOME/.p10k.zsh" "$backup_dir/"
+    [ -f "$HOME/.vimrc" ] && cp "$HOME/.vimrc" "$backup_dir/"
+    [ -f "$HOME/.bashrc" ] && cp "$HOME/.bashrc" "$backup_dir/"
+    [ -f "$HOME/.bash_profile" ] && cp "$HOME/.bash_profile" "$backup_dir/"
+    
+    echo "✅ Backup complete at: $backup_dir"
+}
+
+# Apply macOS specific configurations
+apply_macos_configs() {
+    echo "🍎 Applying macOS configurations..."
+    
+    # System Preferences
+    # Show hidden files
+    defaults write com.apple.finder AppleShowAllFiles YES
+    
+    # Show path bar in Finder
+    defaults write com.apple.finder ShowPathbar -bool true
+    
+    # Show status bar in Finder
+    defaults write com.apple.finder ShowStatusBar -bool true
+    
+    # Disable press-and-hold for keys in favor of key repeat
+    defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+    
+    # Set fast keyboard repeat rate
+    defaults write NSGlobalDomain KeyRepeat -int 2
+    defaults write NSGlobalDomain InitialKeyRepeat -int 15
+    
+    # Add more macOS configurations as needed
+    
+    # Restart affected applications
+    killall Finder
+}
+
+# Apply Linux specific configurations
+apply_linux_configs() {
+    echo "🐧 Applying Linux configurations..."
+    # Add your Linux-specific configurations here
+}
+
+# Rollback configurations
+rollback_configs() {
+    local latest_backup=$(ls -td "$HOME/.config/backup/"* | head -n1)
+    
+    if [ -z "$latest_backup" ]; then
+        echo "❌ No backup found!"
+        return 1
+    fi
+    
+    echo "📂 Rolling back from backup: $latest_backup"
+    
+    # Core configuration files
+    if [ -f "$latest_backup/.zshrc" ]; then
+        cp "$latest_backup/.zshrc" "$HOME/"
+    fi
+    
+    if [ -f "$latest_backup/.aliases" ]; then
+        cp "$latest_backup/.aliases" "$HOME/"
+    fi
+    
+    if [ -f "$latest_backup/.functions" ]; then
+        cp "$latest_backup/.functions" "$HOME/"
+    fi
+    
+    if [ -f "$latest_backup/.gitconfig" ]; then
+        cp "$latest_backup/.gitconfig" "$HOME/"
+    fi
+    
+    if [ -f "$latest_backup/.p10k.zsh" ]; then
+        cp "$latest_backup/.p10k.zsh" "$HOME/"
+    fi
+    
+    if [ -f "$latest_backup/.vimrc" ]; then
+        cp "$latest_backup/.vimrc" "$HOME/"
+    fi
+    
+    if [ -f "$latest_backup/.bashrc" ]; then
+        cp "$latest_backup/.bashrc" "$HOME/"
+    fi
+    
+    if [ -f "$latest_backup/.bash_profile" ]; then
+        cp "$latest_backup/.bash_profile" "$HOME/"
+    fi
+    
+    # Also update the backup_configs function to match
+    echo "✅ Configuration rollback complete!"
+    echo "Please restart your terminal or run 'source ~/.zshrc' to apply changes."
+}

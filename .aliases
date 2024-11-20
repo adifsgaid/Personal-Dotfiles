@@ -1,0 +1,137 @@
+###################
+# Git Aliases
+###################
+alias g='git'
+alias gcm='git commit -m "$1"'
+alias gp='git push'
+alias gl='git pull'
+alias gst='git status'
+alias gd='git diff'
+alias gco='git checkout'
+alias gb='git branch'
+alias ga='git add'
+alias gaa='git add --all'
+alias glog='git log --oneline --decorate --graph'
+alias grh='git reset --hard'
+alias grs='git reset --soft'
+
+###################
+# Docker Aliases
+###################
+alias d='docker'
+alias dc='docker-compose'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias di='docker images'
+alias dex='docker exec -it'
+alias dlog='docker logs'
+alias dprune='docker system prune -af'
+alias dcp='docker-compose pull'
+alias dcu='docker-compose up'
+alias dcd='docker-compose down'
+alias dcr='docker-compose restart'
+alias dcb='docker-compose build'
+
+###################
+# React/Node Development
+###################
+alias ns='npm start'
+alias nt='npm test'
+alias nb='npm run build'
+alias dev='npm run dev'
+alias ni='npm install'
+alias nid='npm install --save-dev'
+alias nrm='npm remove'
+alias cra='npx create-react-app'
+alias crat='npx create-react-app --template typescript'
+alias nr='npm run'
+alias nrc='npm run clean'
+alias nrl='npm run lint'
+alias nrf='npm run format'
+
+###################
+# Directory Navigation
+###################
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias dev='cd ~/Development'
+alias home='cd ~'
+alias dl='cd ~/Downloads'
+alias dt='cd ~/Desktop'
+
+###################
+# List Directory
+###################
+alias ll='ls -la'
+alias la='ls -A'
+alias l='ls -CF'
+alias lsd='ls -l | grep "^d"' # list only directories
+
+###################
+# System
+###################
+alias reload='source ~/.zshrc'
+alias editz='cursor ~/.zshrc'
+alias edita='cursor ~/.aliases'
+alias editg='cursor ~/.gitconfig'
+alias c='clear'
+alias h='history'
+alias path='echo -e ${PATH//:/\\n}'
+
+###################
+# VSCode/Cursor
+###################
+alias code='cursor'
+alias c.='cursor .'
+alias codez='cursor ~/.zshrc'
+alias codea='cursor ~/.aliases'
+
+###################
+# Package Managers
+###################
+alias brewup='brew update && brew upgrade'
+alias brewc='brew cleanup'
+alias brewl='brew list'
+alias brewo='brew outdated'
+
+###################
+# Utility
+###################
+alias ip='curl ipinfo.io/ip'
+alias weather='curl wttr.in'
+alias ports='netstat -tulanp'
+alias mkdir='mkdir -p'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+###################
+# Project Shortcuts
+###################
+# Add your project-specific shortcuts here
+# Example:
+# alias myproject='cd ~/Development/myproject'
+
+###################
+# Custom Functions
+###################
+# Create a new directory and enter it
+mkcd() {
+  mkdir -p "$@" && cd "$@"
+}
+
+# Create a new React project with TypeScript and Tailwind
+create-react-tailwind() {
+  npx create-react-app $1 --template typescript
+  cd $1
+  npm install -D tailwindcss postcss autoprefixer
+  npx tailwindcss init -p
+}
+
+# Git add, commit, and push in one command
+gacp() {
+  git add .
+  git commit -m "$1"
+  git push
+}

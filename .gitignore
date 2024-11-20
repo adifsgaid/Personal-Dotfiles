@@ -1,0 +1,6 @@
+# Add personal files that shouldn't be committed
+.extra
+.DS_Store
+.Spotlight-V100
+.Trashes
+.secrets

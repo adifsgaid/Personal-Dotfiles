@@ -1,0 +1,93 @@
+[user]
+    # These will be prompted during bootstrap
+	name = Adif Sgaid
+	email = infosgaid@gmail.com
+
+[core]
+    editor = cursor
+    excludesfile = ~/.gitignore
+    autocrlf = input
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    pager = less -FRSX
+    
+[init]
+    defaultBranch = main
+
+[color]
+    ui = auto
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+
+[alias]
+    # Shortcuts from .aliases file
+    g = git
+    cm = commit -m
+    p = push
+    l = pull
+    st = status
+    d = diff
+    co = checkout
+    b = branch
+    a = add
+    aa = add --all
+    log = log --oneline --decorate --graph
+    rh = reset --hard
+    rs = reset --soft
+
+    # Additional useful aliases
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    visual = !gitk
+    uncommit = reset --soft HEAD^
+    amend = commit --amend --no-edit
+    contributors = shortlog --summary --numbered
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[push]
+    default = current
+    followTags = true
+
+[pull]
+    rebase = false
+
+[fetch]
+    prune = true
+
+[diff]
+    tool = cursor
+    colorMoved = zebra
+
+[merge]
+    tool = cursor
+    conflictstyle = diff3
+    ff = false
+
+[commit]
+    template = ~/.gitmessage
+    verbose = true
+
+[help]
+    autocorrect = 1
+
+[credential]
+    helper = osxkeychain
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+
+[github]
+    user = github_username
+
+[web]
+    browser = chrome
