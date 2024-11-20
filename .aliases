@@ -14,6 +14,8 @@ alias gaa='git add --all'
 alias glog='git log --oneline --decorate --graph'
 alias grh='git reset --hard'
 alias grs='git reset --soft'
+alias gpm='git pull origin main'
+alias gpo='git push origin'
 
 ###################
 # Docker Aliases

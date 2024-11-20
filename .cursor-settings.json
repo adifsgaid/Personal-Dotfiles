@@ -185,5 +185,6 @@
     "workbench.panel.terminal": true,
     "workbench.panel.debug": false,
     "workbench.view.extensions": false
-  }
+  },
+  "window.commandCenter": 1
 }

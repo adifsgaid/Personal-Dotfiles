@@ -1,0 +1,49 @@
+{
+  "Profiles": [
+    {
+      "Name": "Default",
+      "Guid": "F40D21DE-1594-4301-854A-4C91001247A8",
+      "Normal Font" : "FiraCode-Regular 14",
+      "Use Non-ASCII Font" : false,
+      "Rows" : 30,
+      "Columns" : 120,
+      "Blur" : false,
+      "Working Directory" : "~",
+      "Prompt Before Closing 2" : false,
+      "Visual Bell" : false,
+      "Flashing Bell" : false,
+      "BM Growl" : true,
+      "Mouse Reporting" : true,
+      "Screen" : -1,
+      "Window Type" : 0,
+      "Background Image Location" : "",
+      "Blur Radius" : 0.10,
+      "Scrollback Lines" : 50000,
+      "Send Code When Idle" : false,
+      "Close Sessions On End" : true,
+      "Terminal Type" : "xterm-256color",
+      "Transparency" : 0,
+      "Initial Text" : "",
+      "Background Color" : {
+        "Red Component" : 0.0862745098039216,
+        "Green Component" : 0.0862745098039216,
+        "Blue Component" : 0.0862745098039216
+      },
+      "Foreground Color" : {
+        "Red Component" : 0.972549019607843,
+        "Green Component" : 0.972549019607843,
+        "Blue Component" : 0.972549019607843
+      },
+      "Cursor Color" : {
+        "Red Component" : 0.737254901960784,
+        "Green Component" : 0.737254901960784,
+        "Blue Component" : 0.737254901960784
+      },
+      "Selection Color" : {
+        "Red Component" : 0.309803921568627,
+        "Green Component" : 0.309803921568627,
+        "Blue Component" : 0.309803921568627
+      }
+    }
+  ]
+}

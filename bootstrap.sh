@@ -116,17 +116,42 @@ install_cursor_extensions() {
 }
 
 configure_iterm() {
-    # Create iTerm2 config directory if it doesn't exist
-    defaults write com.googlecode.iterm2 "Normal Font" -string "FiraCode-Regular 14"
-    defaults write com.googlecode.iterm2 "Non Ascii Font" -string "FiraCode-Regular 14"
+    echo "Configuring iTerm2..."
     
-    # Set other common preferences
-    defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/.iterm2"
-    defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+    # Create iTerm2 config directory
+    mkdir -p "$HOME/.iterm2"
     
-    # Window size
-    defaults write com.googlecode.iterm2 "New Bookmarks" -dict-add "Columns" 120
-    defaults write com.googlecode.iterm2 "New Bookmarks" -dict-add "Rows" 30
+    # Copy configuration file
+    cp "$DOTFILES_DIR/.iterm2/Default.json" "$HOME/.iterm2/"
+    
+    # Basic preferences
+    defaults write com.googlecode.iterm2 "PrefsCustomFolder" -string "$HOME/.iterm2"
+    defaults write com.googlecode.iterm2 "LoadPrefsFromCustomFolder" -bool true
+    
+    # Disable window activation on mouse hover
+    defaults write com.googlecode.iterm2 "FocusFollowsMouse" -bool false
+    
+    # Performance and UI settings
+    defaults write com.googlecode.iterm2 "UseMetal" -bool true
+    defaults write com.googlecode.iterm2 "TabViewType" -int 0
+    defaults write com.googlecode.iterm2 "HotkeyMigratedFromSingleToMulti" -bool true
+    defaults write com.googlecode.iterm2 "EnableRendezvous" -bool false
+    defaults write com.googlecode.iterm2 "HideMenuBarInFullscreen" -bool true
+    defaults write com.googlecode.iterm2 "ShowFullScreenTabBar" -bool false
+    
+    # Disable warnings and prompts
+    defaults write com.googlecode.iterm2 "NoSyncDoNotWarnBeforeMultilinePaste" -bool true
+    defaults write com.googlecode.iterm2 "NoSyncNeverRemindPrefsChangesLostForFile" -bool true
+    defaults write com.googlecode.iterm2 "PromptOnQuit" -bool false
+    defaults write com.googlecode.iterm2 "OnlyWhenMoreTabs" -bool true
+    
+    # Set additional preferences
+    defaults write com.googlecode.iterm2 "DimBackgroundWindows" -bool false
+    defaults write com.googlecode.iterm2 "DimInactiveSplitPanes" -bool true
+    defaults write com.googlecode.iterm2 "SplitPaneDimmingAmount" -float 0.4
+    defaults write com.googlecode.iterm2 "DisableWindowSizeSnap" -bool true
+    
+    echo "iTerm2 configuration complete. Please restart iTerm2 for changes to take effect."
 }
 
 # Configure AltTab
@@ -157,7 +182,7 @@ main() {
     fi
 
     # Pull latest changes
-    git pull origin master
+    git pull origin main || git pull origin master
 
     # Create backups
     backup_existing

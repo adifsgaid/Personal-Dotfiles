@@ -27,7 +27,7 @@ setopt SHARE_HISTORY
 
 # Suppress "You have new mail" message
 unset MAILCHECK
-        
+
 # Enhanced plugins list (optimized)
 plugins=(
     git
@@ -46,8 +46,12 @@ plugins=(
     jsontools
     colored-man-pages
     command-not-found
-    fast-syntax-highlighting
+    zsh-completions
 )
+
+# Add these lines after plugins declaration but before sourcing oh-my-zsh
+autoload -Uz compinit
+compinit
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
