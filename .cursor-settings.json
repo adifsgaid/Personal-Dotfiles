@@ -105,7 +105,6 @@
   "extensions.recommendations": [
     "vscodevim.vim",
     "rebornix.ruby",
-    "castwide.solargraph",
     "kaiwood.endwise",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",

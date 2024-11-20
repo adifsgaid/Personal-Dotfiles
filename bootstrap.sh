@@ -96,7 +96,6 @@ install_cursor_extensions() {
     extensions=(
         "vscodevim.vim"
         "rebornix.ruby"
-        "castwide.solargraph"
         "kaiwood.endwise"
         "dbaeumer.vscode-eslint"
         "esbenp.prettier-vscode"
