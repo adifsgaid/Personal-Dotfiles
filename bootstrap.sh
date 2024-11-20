@@ -92,8 +92,7 @@ install_cursor_extensions() {
         return 1
     fi
 
-    CURSOR_CMD="/Applications/Cursor.app/Contents/MacOS/Cursor"
-    
+    # Extensions to install
     extensions=(
         "vscodevim.vim"
         "rebornix.ruby"
@@ -101,20 +100,41 @@ install_cursor_extensions() {
         "kaiwood.endwise"
         "dbaeumer.vscode-eslint"
         "esbenp.prettier-vscode"
-        "ms-azuretools.vscode-docker"
         "bradlc.vscode-tailwindcss"
         "formulahendry.auto-rename-tag"
-        "streetsidesoftware.code-spell-checker"
-        "eamodio.gitlens"
-        "github.copilot"
-        "github.copilot-chat"
-        "pkief.material-icon-theme"
+        "ms-vscode-remote.remote-containers"  # Dev Containers
+        "ms-azuretools.vscode-docker"         # Docker
+        "ecmel.vscode-html-css"               # HTML CSS Support
     )
     
+    # Install extensions using cursor CLI
     for extension in "${extensions[@]}"; do
-        "$CURSOR_CMD" --install-extension "$extension"
+        echo "Installing $extension..."
+        cursor --install-extension "$extension" || \
+        /Applications/Cursor.app/Contents/MacOS/Cursor --install-extension "$extension" || \
+        echo "Failed to install $extension"
     done
 }
+
+configure_iterm() {
+    # Create iTerm2 config directory if it doesn't exist
+    defaults write com.googlecode.iterm2 "Normal Font" -string "FiraCode-Regular 14"
+    defaults write com.googlecode.iterm2 "Non Ascii Font" -string "FiraCode-Regular 14"
+    
+    # Set other common preferences
+    defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/.iterm2"
+    defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+    
+    # Window size
+    defaults write com.googlecode.iterm2 "New Bookmarks" -dict-add "Columns" 120
+    defaults write com.googlecode.iterm2 "New Bookmarks" -dict-add "Rows" 30
+}
+
+# Configure AltTab
+defaults write com.lwouis.alt-tab-macos windowMinimumHeight -int 200
+defaults write com.lwouis.alt-tab-macos windowMaximumHeight -int 400
+defaults write com.lwouis.alt-tab-macos windowPadding -int 5
+defaults write com.lwouis.alt-tab-macos showOnScreen -string "active"
 
 main() {
     echo "Setting up your dotfiles..."
@@ -163,6 +183,9 @@ main() {
         echo "Applying macOS settings..."
         source "$HOME/.macos"
     fi
+
+    # Configure iTerm2
+    configure_iterm
 
     # Source the new configuration
     echo "Sourcing new configuration..."

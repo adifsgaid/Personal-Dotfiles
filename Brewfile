@@ -17,6 +17,9 @@ brew "fd"
 brew "bat"
 brew "exa"
 
+# window manager
+cask "alt-tab"  
+
 # Development
 brew "node"
 brew "yarn"
