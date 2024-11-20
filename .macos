@@ -443,10 +443,6 @@ duti -s com.cursor.Cursor  public.plain-text all
 duti -s com.cursor.Cursor  public.unix-executable all
 duti -s com.cursor.Cursor  public.source-code all
 
-# Show developer tools in Safari by default
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-
 ###############################################################################
 # Mac App Store                                                               #
 ###############################################################################
@@ -513,7 +509,6 @@ for app in "Activity Monitor" \
 	"Mail" \
 	"Messages" \
 	"Photos" \
-	"Safari" \
 	"SystemUIServer" \
 	"Terminal"; do
 	killall "${app}" &> /dev/null
