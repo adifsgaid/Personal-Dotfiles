@@ -186,5 +186,32 @@
     "workbench.panel.debug": false,
     "workbench.view.extensions": false
   },
-  "window.commandCenter": 1
+  "window.commandCenter": 1,
+
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingQuotes": "always",
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.quickSuggestionsDelay": 10,
+  "editor.mouseWheelScrollSensitivity": 1,
+  "keyboard.dispatch": "keyCode",
+  "editor.find.seedSearchStringFromSelection": "never",
+  "editor.dragAndDrop": false,
+  "editor.multiCursorModifier": "alt",
+  "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?",
+  "editor.fastScrollSensitivity": 5,
+  "vim.timeout": 200,
+  "vim.repeatTimeoutLength": 200,
+  "vim.handleKeys": {
+    "<C-d>": true,
+    "<C-u>": true,
+    "k": true,
+    "j": true,
+    "h": true,
+    "l": true
+  },
+  "vim.smartRelativeLine": true,
+  "vim.cursorStylePerMode.normal": "block",
+  "vim.cursorStylePerMode.insert": "line",
+  "vim.cursorStylePerMode.replace": "underline"
 }

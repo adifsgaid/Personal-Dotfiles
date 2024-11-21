@@ -101,7 +101,6 @@ install_cursor_extensions() {
         "esbenp.prettier-vscode"
         "bradlc.vscode-tailwindcss"
         "formulahendry.auto-rename-tag"
-        "ms-vscode-remote.remote-containers"  # Dev Containers
         "ms-azuretools.vscode-docker"         # Docker
         "ecmel.vscode-html-css"               # HTML CSS Support
     )

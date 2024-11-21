@@ -147,20 +147,20 @@ sudo pmset -a autorestart 1
 # Restart automatically if the computer freezes
 sudo systemsetup -setrestartfreeze on
 
-# Sleep the display after 15 minutes
-sudo pmset -a displaysleep 15
+# Set display sleep to 10 minutes on battery
+sudo pmset -b displaysleep 10
 
-# Disable machine sleep while charging
+# Set system sleep to 15 minutes on battery
+sudo pmset -b sleep 15
+
+# Set display sleep to 15 minutes when charging
+sudo pmset -c displaysleep 15
+
+# Disable system sleep when charging
 sudo pmset -c sleep 0
-
-# Set machine sleep to 5 minutes on battery
-sudo pmset -b sleep 5
 
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
-
-# Never go into computer sleep mode
-sudo systemsetup -setcomputersleep Off > /dev/null
 
 # Hibernation mode
 # 0: Disable hibernation (speeds up entering sleep mode)
@@ -169,9 +169,9 @@ sudo systemsetup -setcomputersleep Off > /dev/null
 sudo pmset -a hibernatemode 0
 
 # Remove the sleep image file to save disk space
-sudo rm -f /private/var/vm/sleepimage
+sudo rm -f /private/var/vm/sleepimage || true
 # Create a zero-byte file instead
-sudo touch /private/var/vm/sleepimage
+sudo touch /private/var/vm/sleepimage || true
 # Make sure it can't be rewritten
 sudo chflags uchg /private/var/vm/sleepimage || true
 
@@ -282,7 +282,8 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 
 # Show the ~/Library folder
-chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+chflags nohidden ~/Library || true
+xattr -d com.apple.FinderInfo ~/Library 2>/dev/null || true
 
 # Show the /Volumes folder
 sudo chflags nohidden /Volumes
@@ -346,8 +347,10 @@ defaults write com.apple.dock showhidden -bool true
 # Don’t show recent applications in Dock
 defaults write com.apple.dock show-recents -bool false
 
-# Reset Launchpad, but keep the desktop wallpaper intact
-find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete
+# Reset Launchpad (only if directory exists)
+if [ -d "${HOME}/Library/Application Support/Dock" ]; then
+    find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete
+fi
 
 ###############################################################################
 # Terminal & iTerm 2                                                          #
@@ -359,21 +362,13 @@ defaults write com.apple.terminal StringEncodings -array 4
 # Disable the annoying line marks
 defaults write com.apple.Terminal ShowLineMarks -int 0
 
-# Install the Solarized Dark theme for iTerm
-open "${HOME}/init/Solarized Dark.itermcolors"
+# Don't install the Solarized Dark theme if file doesn't exist
+if [ -f "${HOME}/init/Solarized Dark.itermcolors" ]; then
+    open "${HOME}/init/Solarized Dark.itermcolors"
+fi
 
 # Don’t display the annoying prompt when quitting iTerm
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
-
-###############################################################################
-# Time Machine                                                                #
-###############################################################################
-
-# Prevent Time Machine from prompting to use new hard drives as backup volume
-defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
-
-# Disable local Time Machine backups
-hash tmutil &> /dev/null && sudo tmutil disablelocal
 
 ###############################################################################
 # Activity Monitor                                                            #
@@ -428,7 +423,7 @@ defaults write com.apple.finder AppleShowAllFiles -bool true
 # Show build time in Xcode
 defaults write com.apple.dt.Xcode ShowBuildOperationDuration -bool true
 
-# Enable VSCode key repeat
+# Enable Cursor key repeat
 defaults write com.cursor.Cursor ApplePressAndHoldEnabled -bool false
 
 # Enable key repeat for Cursor editor
@@ -438,7 +433,7 @@ defaults write com.cursor.Cursor ApplePressAndHoldEnabled -bool false
 defaults write com.docker.docker AutoStart -bool true
 defaults write com.docker.docker UseCredentialHelper -bool true
 
-# Set VSCode as default editor for many file types
+# Set Cursor as default editor for many file types
 duti -s com.cursor.Cursor  public.plain-text all
 duti -s com.cursor.Cursor  public.unix-executable all
 duti -s com.cursor.Cursor  public.source-code all
@@ -510,9 +505,33 @@ for app in "Activity Monitor" \
 	"Messages" \
 	"Photos" \
 	"SystemUIServer" \
+	"Cursor" \
 	"Terminal"; do
 	killall "${app}" &> /dev/null
 done
 
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+# Set ultra-fast keyboard repeat rate
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
+# Ensure key repeat works in Cursor
+defaults write com.cursor.Cursor ApplePressAndHoldEnabled -bool false
+defaults write com.cursor.Cursor KeyRepeat -int 1
+defaults write com.cursor.Cursor InitialKeyRepeat -int 10
+
+# Disable press-and-hold for keys in favor of key repeat
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Set ultra fast key repeat rate
+defaults write -g KeyRepeat -int 1
+defaults write -g InitialKeyRepeat -int 10
+
+# Disable accent menu and enable key repeat for specific apps
+defaults write com.cursor.Cursor ApplePressAndHoldEnabled -bool false
+defaults write com.apple.Terminal ApplePressAndHoldEnabled -bool false
+defaults write com.apple.Safari ApplePressAndHoldEnabled -bool false
+defaults write com.google.Chrome ApplePressAndHoldEnabled -bool false
+defaults write com.apple.finder ApplePressAndHoldEnabled -bool false
+
+echo "Done. Note that some of these changes require a logout/restart to take effect."

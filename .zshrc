@@ -6,6 +6,10 @@ fi
 # Path to oh-my-zsh installation
 export ZSH="$HOME/.oh-my-zsh"
 
+# Ruby
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 # Theme configuration
 ZSH_THEME="robbyrussell"
 
@@ -171,4 +175,22 @@ fco() {
 # Search command history
 fh() {
   eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
+
+# Enhanced folder search with automatic home directory scanning
+function fd() {
+    local dir
+    dir=$(find $HOME/* -maxdepth 3 \
+        -path '*/\.*' -prune \
+        -o -type d -print 2> /dev/null | \
+        fzf +m \
+            --preview 'tree -C {} | head -200' \
+            --preview-window=right:50% \
+            --bind='ctrl-d:preview-page-down' \
+            --bind='ctrl-u:preview-page-up' \
+            --height=80% \
+            --layout=reverse \
+            --border \
+            --prompt="🔍 ")
+    [ -n "$dir" ] && cd "$dir"
 }

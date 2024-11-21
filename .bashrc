@@ -2,3 +2,4 @@
 if [ -x "$(command -v zsh)" ] && [ -n "$PS1" ]; then
     exec zsh
 fi
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
