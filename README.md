@@ -67,12 +67,14 @@ A curated collection of dotfiles and scripts for setting up a powerful developme
 - tree
 - jq
 
+
 ### Applications
 - Google Chrome
 - Slack
 - 1Password
 - Raycast
 - Figma
+- Spotify
 
 ## ⚙️ Customization
 
