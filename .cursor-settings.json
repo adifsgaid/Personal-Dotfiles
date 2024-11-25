@@ -60,11 +60,14 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2
   },
+
   "[ruby]": {
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
     "editor.defaultFormatter": "rebornix.ruby"
   },
+
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2
@@ -76,15 +79,15 @@
   "ruby.useBundler": true,
   "ruby.useLanguageServer": true,
   "ruby.lint": {
-    "rubocop": true
+    "rubocop": {
+      "useBundler": true
+    }
   },
-  "ruby.format": "rubocop",
 
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.suggest.autoImports": true,
 
-  "docker.enableLinting": true,
-
+  "editor.formatOnPaste": true,
   "terminal.integrated.fontFamily": "JetBrains Mono",
   "terminal.integrated.fontSize": 12,
 
@@ -99,26 +102,13 @@
   "workbench.statusBar.visible": true,
   "workbench.activityBar.location": "default",
   "workbench.editor.showTabs": "multiple",
-  "workbench.startupEditor": "none",
   "workbench.layoutControl.enabled": true,
 
-  "extensions.recommendations": [
-    "vscodevim.vim",
-    "rebornix.ruby",
-    "kaiwood.endwise",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "ms-azuretools.vscode-docker",
-    "bradlc.vscode-tailwindcss",
-    "formulahendry.auto-rename-tag",
-    "streetsidesoftware.code-spell-checker",
-    "eamodio.gitlens",
-    "github.copilot",
-    "github.copilot-chat"
-  ],
+  "editor.suggestLineHeight": 24,
+  "editor.suggestFontSize": 13,
 
-  "editor.suggestLineHeight": 1.3,
-  "editor.suggest.showStatusBar": true,
+  "editor.quickSuggestionsDelay": 30,
+  "editor.acceptSuggestionOnEnter": "on",
 
   "workbench.colorTheme": "GitHub Dark Default",
   "workbench.editor.enablePreview": false,
@@ -137,26 +127,6 @@
     "**/log": true
   },
 
-  "chat.defaultFontSize": 14,
-  "chat.defaultViewWidth": "50%",
-  "chat.fontSize": 14,
-  "chat.lineHeight": 1.5,
-  "chat.completionFontSize": 14,
-  "chat.maxHeight": "70vh",
-  "chat.position": "right",
-  "chat.width": "45%",
-
-  "panel.fontSize": 14,
-  "panel.lineHeight": 1.5,
-
-  "editor.suggestFontSize": 14,
-  "editor.hover.fontSize": 14,
-  "documentation.fontSize": 14,
-
-  "window.zoomLevel": 1,
-  "editor.lineNumbers": "relative",
-  "editor.cursorSurround.lineNumbers": "relative",
-  "editor.smoothScrolling": true,
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.quickSuggestions": {
     "other": "on",
@@ -167,32 +137,14 @@
   "editor.cursorStyle": "line",
   "editor.scrollBeyondLastLine": false,
   "editor.minimap.enabled": false,
-  "workbench.list.automaticKeyboardNavigation": false,
   "workbench.panel.defaultLocation": "bottom",
-  "workbench.activityBar.pinnedActions": {
-    "remote.remote-containers": false,
-    "workbench.action.remote.showMenu": false,
-    "workbench.view.scm": false,
-    "workbench.view.sync": false,
-    "workbench.view.debug": false,
-    "workbench.view.extensions": false
-  },
   "workbench.panel.opensMaximized": "never",
 
-  "workbench.panel.enabled": {
-    "workbench.panel.problems": true,
-    "workbench.panel.output": false,
-    "workbench.panel.terminal": true,
-    "workbench.panel.debug": false,
-    "workbench.view.extensions": false
-  },
-  "window.commandCenter": 1,
+  "window.commandCenter": true,
 
   "editor.autoClosingBrackets": "always",
   "editor.autoClosingQuotes": "always",
-  "editor.acceptSuggestionOnEnter": "on",
   "editor.acceptSuggestionOnCommitCharacter": true,
-  "editor.quickSuggestionsDelay": 10,
   "editor.mouseWheelScrollSensitivity": 1,
   "keyboard.dispatch": "keyCode",
   "editor.find.seedSearchStringFromSelection": "never",
@@ -200,8 +152,7 @@
   "editor.multiCursorModifier": "alt",
   "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?",
   "editor.fastScrollSensitivity": 5,
-  "vim.timeout": 200,
-  "vim.repeatTimeoutLength": 200,
+  "vim.timeout": 100,
   "vim.handleKeys": {
     "<C-d>": true,
     "<C-u>": true,
@@ -213,5 +164,7 @@
   "vim.smartRelativeLine": true,
   "vim.cursorStylePerMode.normal": "block",
   "vim.cursorStylePerMode.insert": "line",
-  "vim.cursorStylePerMode.replace": "underline"
+  "vim.cursorStylePerMode.replace": "underline",
+  "cursor.chat.premiumChatAutoScrollWhenAtBottom": true,
+  "liveServer.settings.donotShowInfoMsg": true
 }

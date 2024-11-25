@@ -2,7 +2,6 @@
 # Git Aliases
 ###################
 alias g='git'
-alias gcm='git commit -m "$1"'
 alias gp='git push'
 alias gl='git pull'
 alias gst='git status'
@@ -136,7 +135,6 @@ create-react-tailwind() {
   npx create-react-app $1 --template typescript
   cd $1
   npm install -D tailwindcss postcss autoprefixer
-  npx tailwindcss init -p
 }
 
 # Git add, commit, and push in one command
@@ -144,4 +142,12 @@ gacp() {
   git add .
   git commit -m "$1"
   git push
+}
+
+# Remove any existing gcm alias if it exists
+unalias gcm 2>/dev/null || true
+
+# Git commit with message
+gcm() {
+  git commit -m "$*"
 }
