@@ -166,5 +166,9 @@
   "vim.cursorStylePerMode.insert": "line",
   "vim.cursorStylePerMode.replace": "underline",
   "cursor.chat.premiumChatAutoScrollWhenAtBottom": true,
-  "liveServer.settings.donotShowInfoMsg": true
+  "liveServer.settings.donotShowInfoMsg": true,
+  "editor.largeFileOptimizations": false,
+  "makefile.configureOnOpen": true,
+  "redhat.telemetry.enabled": true,
+  "npm.keybindingsChangedWarningShown": true
 }
