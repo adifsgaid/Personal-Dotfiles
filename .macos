@@ -117,8 +117,8 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 # Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 2
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
+defaults write NSGlobalDomain KeyRepeat -int 3
+defaults write NSGlobalDomain InitialKeyRepeat -int 25
 
 # Set language and text formats
 defaults write NSGlobalDomain AppleLanguages -array "en" "nl"
@@ -506,21 +506,21 @@ for app in "Activity Monitor" \
 done
 
 # Set ultra-fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 2
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
+defaults write NSGlobalDomain KeyRepeat -int 3
+defaults write NSGlobalDomain InitialKeyRepeat -int 25
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Ensure key repeat works in Cursor
 defaults write com.cursor.Cursor ApplePressAndHoldEnabled -bool false
-defaults write com.cursor.Cursor KeyRepeat -int 2
-defaults write com.cursor.Cursor InitialKeyRepeat -int 15
+defaults write com.cursor.Cursor KeyRepeat -int 3
+defaults write com.cursor.Cursor InitialKeyRepeat -int 25
 
 # Disable press-and-hold for keys in favor of key repeat
 defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Set ultra fast key repeat rate
-defaults write -g KeyRepeat -int 2
-defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 3
+defaults write -g InitialKeyRepeat -int 25
 
 # Disable accent menu and enable key repeat for specific apps
 defaults write com.cursor.Cursor ApplePressAndHoldEnabled -bool false
@@ -528,5 +528,9 @@ defaults write com.apple.Terminal ApplePressAndHoldEnabled -bool false
 defaults write com.apple.Safari ApplePressAndHoldEnabled -bool false
 defaults write com.google.Chrome ApplePressAndHoldEnabled -bool false
 defaults write com.apple.finder ApplePressAndHoldEnabled -bool false
+
+# Set global key repeat settings
+defaults write -g KeyRepeat -int 3
+defaults write -g InitialKeyRepeat -int 25
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
