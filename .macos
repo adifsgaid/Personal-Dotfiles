@@ -117,8 +117,8 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 # Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # Set language and text formats
 defaults write NSGlobalDomain AppleLanguages -array "en" "nl"
@@ -506,21 +506,21 @@ for app in "Activity Monitor" \
 done
 
 # Set ultra-fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Ensure key repeat works in Cursor
 defaults write com.cursor.Cursor ApplePressAndHoldEnabled -bool false
-defaults write com.cursor.Cursor KeyRepeat -int 1
-defaults write com.cursor.Cursor InitialKeyRepeat -int 10
+defaults write com.cursor.Cursor KeyRepeat -int 2
+defaults write com.cursor.Cursor InitialKeyRepeat -int 15
 
 # Disable press-and-hold for keys in favor of key repeat
 defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Set ultra fast key repeat rate
-defaults write -g KeyRepeat -int 1
-defaults write -g InitialKeyRepeat -int 10
+defaults write -g KeyRepeat -int 2
+defaults write -g InitialKeyRepeat -int 15
 
 # Disable accent menu and enable key repeat for specific apps
 defaults write com.cursor.Cursor ApplePressAndHoldEnabled -bool false
