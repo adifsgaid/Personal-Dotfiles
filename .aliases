@@ -1,5 +1,5 @@
 ###################
-# Git Aliases
+# Git
 ###################
 alias g='git'
 alias gp='git push'
@@ -16,8 +16,34 @@ alias grs='git reset --soft'
 alias gpm='git pull origin main'
 alias gpo='git push origin'
 
+function push() {
+  branch=`git branch | awk '/\*/ {print $2}'`
+  git push origin $branch
+}
+
+function pull() {
+  branch=`git branch | awk '/\*/ {print $2}'`
+  git pull origin $branch
+}
+
+function rebase() {
+  branch=`git branch | awk '/\*/ {print $2}'`
+  git pull --rebase origin $branch
+}
+
+gacp() {
+  git add .
+  git commit -m "$1"
+  git push
+}
+
+unalias gcm 2>/dev/null || true
+gcm() {
+  git commit -m "$*"
+}
+
 ###################
-# Docker Aliases
+# Docker
 ###################
 alias d='docker'
 alias dc='docker-compose'
@@ -34,7 +60,7 @@ alias dcr='docker-compose restart'
 alias dcb='docker-compose build'
 
 ###################
-# React/Node Development
+# Node / React
 ###################
 alias ns='npm start'
 alias nt='npm test'
@@ -50,27 +76,36 @@ alias nrc='npm run clean'
 alias nrl='npm run lint'
 alias nrf='npm run format'
 
+alias webpacker='nvm use --local && ./bin/webpack-dev-server'
+alias pumalog='tail -f ~/Library/Logs/puma-dev.log'
+alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
+
+create-react-tailwind() {
+  npx create-react-app $1 --template typescript
+  cd $1
+  npm install -D tailwindcss postcss autoprefixer
+}
+
 ###################
-# Directory Navigation
+# Navigation
 ###################
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias dev='cd ~/Development'
 alias home='cd ~'
 alias dl='cd ~/Downloads'
 alias dt='cd ~/Desktop'
 
 ###################
-# List Directory
+# Listing
 ###################
 alias ll='ls -la'
 alias la='ls -A'
 alias l='ls -CF'
-alias lsd='ls -l | grep "^d"' # list only directories
+alias lsd='ls -l | grep "^d"'
 
 ###################
-# System
+# Shell / editor
 ###################
 alias reload='source ~/.zshrc'
 alias editz='cursor ~/.zshrc'
@@ -80,16 +115,17 @@ alias c='clear'
 alias h='history'
 alias path='echo -e ${PATH//:/\\n}'
 
-###################
-# VSCode/Cursor
-###################
 alias code='cursor'
 alias c.='cursor .'
 alias codez='cursor ~/.zshrc'
 alias codea='cursor ~/.aliases'
 
+mkcd() {
+  mkdir -p "$@" && cd "$@"
+}
+
 ###################
-# Package Managers
+# Homebrew
 ###################
 alias brewup='brew update && brew upgrade'
 alias brewc='brew cleanup'
@@ -107,7 +143,9 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
-# fzf aliases
+###################
+# fzf
+###################
 alias fz='fzf'
 alias fzp='fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
 alias fzd='cd $(find * -type d | fzf)'
@@ -116,38 +154,167 @@ alias fzh='history | fzf'
 alias fzb='git checkout $(git branch | fzf)'
 
 ###################
-# Project Shortcuts
+# Yoojo — Thor seed helpers
 ###################
-# Add your project-specific shortcuts here
-# Example:
-# alias myproject='cd ~/Development/myproject'
+ALL_COUNTRIES=("fr" "ch" "be" "lu" "uk" "it" "es" "ie" "nl")
 
-###################
-# Custom Functions
-###################
-# Create a new directory and enter it
-mkcd() {
-  mkdir -p "$@" && cd "$@"
+function generate_jobbers() {
+    local count=$1
+    local country=${2:-fr}
+    local jobber_list=""
+    for ((j=1; j<=count; j++)); do
+        local job_num=$(( (j + 1) / 2 ))
+        if (( j % 2 == 1 )); then
+            jobber_list+="jobber${job_num}@yoojo.$country"
+        else
+            jobber_list+=",jobberpro${job_num}@yoojo.$country"
+        fi
+    done
+    echo "$jobber_list"
 }
 
-# Create a new React project with TypeScript and Tailwind
-create-react-tailwind() {
-  npx create-react-app $1 --template typescript
-  cd $1
-  npm install -D tailwindcss postcss autoprefixer
+function execute_for_all_countries() {
+    local count=$1
+    local command=$2
+    for country in "${ALL_COUNTRIES[@]}"; do
+        local jobbers=$(generate_jobbers $count $country)
+        bundle exec thor seed:job --customer=customer1@yoojo.$country --jobbers=$jobbers --country=$country $command
+    done
 }
 
-# Git add, commit, and push in one command
-gacp() {
-  git add .
-  git commit -m "$1"
-  git push
+function pay() {
+    local count=${1:-1}
+    local country=$2
+    if [ "$country" = "all" ]; then
+        execute_for_all_countries $count "--pay"
+    else
+        local jobbers=$(generate_jobbers $count $country)
+        bundle exec thor seed:job --customer=customer1@yoojo.$country --jobbers=$jobbers --country=$country --pay
+    fi
 }
 
-# Remove any existing gcm alias if it exists
-unalias gcm 2>/dev/null || true
+function assign() {
+    local count=${1:-1}
+    local country=$2
+    if [ "$country" = "all" ]; then
+        execute_for_all_countries $count "--assign"
+    else
+        local jobbers=$(generate_jobbers $count $country)
+        bundle exec thor seed:job --customer=customer1@yoojo.$country --jobbers=$jobbers --country=$country --assign
+    fi
+}
 
-# Git commit with message
-gcm() {
-  git commit -m "$*"
+function postulate() {
+    local count=${1:-1}
+    local country=$2
+    if [ "$country" = "all" ]; then
+        execute_for_all_countries $count "--postulate"
+    else
+        local jobbers=$(generate_jobbers $count $country)
+        bundle exec thor seed:job --customer=customer1@yoojo.$country --jobbers=$jobbers --country=$country --postulate
+    fi
+}
+
+alias yarncustomer='yarn install && yarn upgrade @youpijob/youpijob-ui'
+alias yarnjobber='yarn install && yarn upgrade @youpijob/youpijob-ui'
+
+###################
+# Yoojo — GitHub Actions / bastion
+###################
+function build {
+  branch=$(git branch --show-current)
+  echo "Build '$branch'"
+  gh workflow run "Build and push" -r $branch
+}
+
+function stage {
+  branch=$(git branch --show-current)
+  echo "Deploy '$branch' on staging"
+  gh workflow run "Deploy" --ref $branch -F environment=staging
+}
+
+function buildtag {
+  tag=$(git describe --tags --abbrev=0)
+  echo "Build tag '$tag'"
+  gh workflow run "Build and push" -r $tag
+}
+
+alias builds='gh workflow view "Build and push"'
+alias deploys='gh workflow view "Deploy"'
+
+alias bastion='ssh yoojo-bastion'
+alias prod='bastion'
+
+cp_prod() {
+ ssh yoojo-bastion "source ~/.bash_aliases; cp_prod $1" && scp -i ~/.ssh/id_ed25519 yoojo-bastion:/home/ubuntu/extracts/$1 $HOME/Desktop
+}
+
+cp_staging() {
+  ssh yoojo-bastion "source ~/.bash_aliases; cp_staging $1" && scp -i ~/.ssh/id_ed25519 yoojo-bastion:/home/ubuntu/extracts/$1 $HOME/Desktop
+}
+
+cp_to_prod() {
+  scp -i ~/.ssh/yoojo-bastion $HOME/Desktop/$1 yoojo-bastion:/home/ubuntu/extracts
+}
+
+function gate() {
+  echo "Opening SSH tunnel to Mac Mini (port 18789)..."
+  ssh -N -f -L 18789:127.0.0.1:18789 macmini
+  open -a "Google Chrome" "http://localhost:18789/"
+}
+
+###################
+# Cloud 66
+###################
+console() {
+  # usage: console <stack> <server> [env]
+  local stack="$1" server="$2" env="${3:-staging}"
+  [[ -z "$stack" || -z "$server" ]] && {
+    echo "usage: console <stack> <server> [env]"; return 1; }
+
+  local path="/var/deploy/${stack}/current_variant/current"
+
+  echo "→ opening Rails console on ${server} (stack: ${stack}, env: ${env})"
+  echo "→ after connecting, run: cd $path && RAILS_ENV=$env bundle exec rails console"
+  cx ssh -s "$stack" "$server"
+}
+
+# Connect to boilerplate/barracuda and cd into the Rails app
+bsh() {
+  echo "→ connecting to boilerplate/barracuda..."
+
+  cat > /tmp/bp_connect.exp << 'EOF'
+#!/usr/bin/expect -f
+set timeout 30
+
+spawn cx ssh -s boilerplate barracuda
+expect "$ "
+send "cd /var/deploy/boilerplate/current_variant/current\r"
+expect "$ "
+interact
+EOF
+
+  chmod +x /tmp/bp_connect.exp
+  /tmp/bp_connect.exp
+  rm /tmp/bp_connect.exp
+}
+alias bp_ssh='cx ssh -s boilerplate barracuda'
+
+###################
+# PromptZone (Railway)
+###################
+promptzone_rails_c() {
+  echo "→ connecting to PromptZone Rails console on Railway..."
+  railway link -p promptzone_community 2>/dev/null
+  railway ssh -s web -- bash -c 'cd /opt/apps/forem && BUNDLE_PATH=vendor/bundle BUNDLE_GEMFILE=/opt/apps/forem/Gemfile BUNDLE_WITHOUT=development:test RAILS_ENV=production bin/rails console'
+}
+
+# Reads PROMPTZONE_PG_HOST / PORT / USER / DB / PASSWORD from ~/.secrets
+promptzone_psql() {
+  echo "→ connecting to PromptZone PostgreSQL on Railway..."
+  PGPASSWORD="$PROMPTZONE_PG_PASSWORD" psql \
+    -h "$PROMPTZONE_PG_HOST" \
+    -p "$PROMPTZONE_PG_PORT" \
+    -U "$PROMPTZONE_PG_USER" \
+    -d "$PROMPTZONE_PG_DB"
 }

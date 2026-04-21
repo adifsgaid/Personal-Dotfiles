@@ -1,6 +1,22 @@
-# Add personal files that shouldn't be committed
-.extra
+# macOS noise
 .DS_Store
 .Spotlight-V100
 .Trashes
+
+# Secrets — never commit
 .secrets
+.env
+.env.*
+*.pem
+*.key
+id_rsa
+id_ed25519
+.npmrc
+
+# Personal / machine-local overrides
+.extra
+.zshrc.local
+.bash_profile.bak
+
+# Tool-local state
+.claude/

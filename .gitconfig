@@ -1,7 +1,6 @@
 [user]
-    # These will be prompted during bootstrap
 	name = Adif Sgaid
-	email = infosgaid@gmail.com
+	email = 69080239+adifsgaid@users.noreply.github.com
 
 [core]
     editor = cursor
@@ -9,7 +8,7 @@
     autocrlf = input
     whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
     pager = less -FRSX
-    
+
 [init]
     defaultBranch = main
 
@@ -52,9 +51,6 @@
     default = current
     followTags = true
 
-[pull]
-    rebase = false
-
 [fetch]
     prune = true
 
@@ -63,8 +59,6 @@
     colorMoved = zebra
 
 [merge]
-    tool = cursor
-    conflictstyle = diff3
     ff = false
 
 [commit]
@@ -87,7 +81,7 @@
     insteadOf = https://github.com/
 
 [github]
-    user = github_username
+    user = adifsgaid
 
 [web]
     browser = chrome

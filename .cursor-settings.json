@@ -2,6 +2,7 @@
   "editor.fontFamily": "JetBrains Mono, Menlo, Monaco, 'Courier New', monospace",
   "editor.fontSize": 13,
   "editor.lineHeight": 1.5,
+  "workbench.colorTheme": "Monokai",
   "editor.fontLigatures": true,
   "editor.rulers": [80, 100],
   "editor.bracketPairColorization.enabled": true,
@@ -10,108 +11,57 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
-    "source.organizeImports": "explicit"
+    "source.organizeImports": "explicit",
   },
-
-  "vim.easymotion": true,
-  "vim.incsearch": true,
-  "vim.useSystemClipboard": true,
-  "vim.useCtrlKeys": true,
-  "vim.hlsearch": true,
-  "vim.insertModeKeyBindings": [
-    {
-      "before": ["j", "j"],
-      "after": ["<Esc>"]
-    }
-  ],
-  "vim.normalModeKeyBindingsNonRecursive": [
-    {
-      "before": ["<leader>", "d"],
-      "after": ["d", "d"]
-    },
-    {
-      "before": ["<C-n>"],
-      "commands": [":nohl"]
-    },
-    {
-      "before": ["K"],
-      "after": ["5", "k"]
-    },
-    {
-      "before": ["J"],
-      "after": ["5", "j"]
-    },
-    {
-      "before": ["]", "d"],
-      "commands": ["editor.action.marker.next"]
-    },
-    {
-      "before": ["[", "d"],
-      "commands": ["editor.action.marker.prev"]
-    }
-  ],
-  "vim.leader": "<space>",
 
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
   },
 
   "[ruby]": {
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
-    "editor.defaultFormatter": "rebornix.ruby"
+    "editor.defaultFormatter": "Shopify.ruby-lsp",
   },
 
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
   },
 
-  "prettier.singleQuote": true,
+  "prettier.singleQuote": false,
   "prettier.trailingComma": "es5",
-
-  "ruby.useBundler": true,
-  "ruby.useLanguageServer": true,
-  "ruby.lint": {
-    "rubocop": {
-      "useBundler": true
-    }
-  },
 
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.suggest.autoImports": true,
 
   "editor.formatOnPaste": true,
   "terminal.integrated.fontFamily": "JetBrains Mono",
-  "terminal.integrated.fontSize": 12,
+  "terminal.integrated.fontSize": 13,
 
   "files.associations": {
     "*.erb": "erb",
     "*.jsx": "javascriptreact",
     "*.tsx": "typescriptreact",
-    "Dockerfile*": "dockerfile"
+    "Dockerfile*": "dockerfile",
   },
-
-  "workbench.sideBar.location": "right",
   "workbench.statusBar.visible": true,
   "workbench.activityBar.location": "default",
+
   "workbench.editor.showTabs": "multiple",
   "workbench.layoutControl.enabled": true,
 
   "editor.suggestLineHeight": 24,
-  "editor.suggestFontSize": 13,
+  "editor.suggestFontSize": 11,
 
   "editor.quickSuggestionsDelay": 30,
   "editor.acceptSuggestionOnEnter": "on",
-
-  "workbench.colorTheme": "GitHub Dark Default",
-  "workbench.editor.enablePreview": false,
 
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
@@ -124,24 +74,23 @@
     "**/node_modules": true,
     "**/bower_components": true,
     "**/tmp": true,
-    "**/log": true
+    "**/log": true,
   },
 
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.quickSuggestions": {
     "other": "on",
     "comments": "off",
-    "strings": "off"
+    "strings": "off",
   },
   "editor.cursorBlinking": "solid",
   "editor.cursorStyle": "line",
   "editor.scrollBeyondLastLine": false,
   "editor.minimap.enabled": false,
-  "workbench.panel.defaultLocation": "bottom",
+  "workbench.sideBar.location": "right",
   "workbench.panel.opensMaximized": "never",
-
+  "search.mode": "newEditor",
   "window.commandCenter": true,
-
   "editor.autoClosingBrackets": "always",
   "editor.autoClosingQuotes": "always",
   "editor.acceptSuggestionOnCommitCharacter": true,
@@ -152,23 +101,52 @@
   "editor.multiCursorModifier": "alt",
   "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?",
   "editor.fastScrollSensitivity": 5,
-  "vim.timeout": 100,
-  "vim.handleKeys": {
-    "<C-d>": true,
-    "<C-u>": true,
-    "k": true,
-    "j": true,
-    "h": true,
-    "l": true
-  },
-  "vim.smartRelativeLine": true,
-  "vim.cursorStylePerMode.normal": "block",
-  "vim.cursorStylePerMode.insert": "line",
-  "vim.cursorStylePerMode.replace": "underline",
-  "cursor.chat.premiumChatAutoScrollWhenAtBottom": true,
-  "liveServer.settings.donotShowInfoMsg": true,
   "editor.largeFileOptimizations": false,
   "makefile.configureOnOpen": true,
+  "files.insertFinalNewline": true,
+  "javascript.preferences.quoteStyle": "double",
+  "typescript.preferences.quoteStyle": "double",
+  "git.ignoreRebaseWarning": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "cursor.general.gitGraphIndexing": "enabled",
+  "update.releaseTrack": "prerelease",
+  "diffEditor.hideUnchangedRegions.enabled": true,
+  "diffEditor.experimental.showMoves": true,
+  "git.replaceTagsWhenPull": true,
+  "workbench.activityBar.orientation": "vertical",
+  "security.workspace.trust.untrustedFiles": "open",
+  "extensions.ignoreRecommendations": true,
+  "git.openRepositoryInParentFolders": "never",
+  "biome.suggestInstallingGlobally": false,
+  "claudeCode.selectedModel": "default",
+  "claudeCode.preferredLocation": "panel",
+  "cursor.agent_layout_browser_beta_setting": true,
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "rbenv",
+  },
+  "editor.accessibilitySupport": "off",
+  "accessibility.signals.lineHasBreakpoint.sound": "off",
+  "accessibility.signals.lineHasError.sound": "off",
+  "accessibility.signals.lineHasWarning.sound": "off",
+  "accessibility.signals.onDebugBreak.sound": "off",
+  "accessibility.signals.noInlayHints.sound": "off",
+  "accessibility.signals.taskCompleted.sound": "off",
+  "accessibility.signals.taskFailed.sound": "off",
+  "accessibility.signals.terminalBell.sound": "off",
+  "accessibility.signals.terminalCommandFailed.sound": "off",
+  "accessibility.signals.terminalCommandSucceeded.sound": "off",
+  "accessibility.signals.terminalQuickFix.sound": "off",
+  "accessibility.signals.diffLineDeleted.sound": "off",
+  "accessibility.signals.diffLineInserted.sound": "off",
+  "accessibility.signals.diffLineModified.sound": "off",
+  "accessibility.signals.lineHasInlineSuggestion.sound": "off",
+  "accessibility.signals.notebookCellCompleted.sound": "off",
+  "accessibility.signals.notebookCellFailed.sound": "off",
+  "accessibility.signals.save.sound": "off",
+  "accessibility.signals.format.sound": "off",
+  "accessibility.signals.voiceRecordingStarted.sound": "off",
+  "accessibility.signals.voiceRecordingStopped.sound": "off",
   "redhat.telemetry.enabled": true,
-  "npm.keybindingsChangedWarningShown": true
+  "accessibility.signalOptions.volume": 0,
 }

@@ -3,7 +3,15 @@ if [ -f "$HOME/.bashrc" ]; then
     source "$HOME/.bashrc"
 fi
 
-# Python environment settings
+# Python (pyenv)
 export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"
+if command -v pyenv >/dev/null; then
+    eval "$(pyenv init --path)"
+    pyenv commands | grep -q virtualenv-init && eval "$(pyenv virtualenv-init -)"
+fi
+
+# Ruby (rbenv)
+command -v rbenv >/dev/null && eval "$(rbenv init -)"
+
+# Rust
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"

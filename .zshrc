@@ -6,21 +6,17 @@ fi
 # Path to oh-my-zsh installation
 export ZSH="$HOME/.oh-my-zsh"
 
-# Ruby
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-# Theme configuration
+# Theme
 ZSH_THEME="robbyrussell"
 
-# Path configurations (early path setup)
-export PATH=$HOME/bin:/usr/local/bin:/opt/homebrew/bin:$PATH
+# Early PATH setup
+export PATH="$HOME/bin:/usr/local/bin:/opt/homebrew/bin:$PATH"
 
-# Update behavior
+# oh-my-zsh update behavior
 zstyle ':omz:update' mode auto
 zstyle ':omz:update' frequency 7
 
-# History configuration
+# History
 HISTSIZE=50000
 SAVEHIST=50000
 HISTFILE=~/.zsh_history
@@ -29,10 +25,8 @@ setopt HIST_FIND_NO_DUPS
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
-# Suppress "You have new mail" message
 unset MAILCHECK
 
-# Enhanced plugins list (optimized)
 plugins=(
     git
     node
@@ -53,33 +47,32 @@ plugins=(
     zsh-completions
 )
 
-# Add these lines after plugins declaration but before sourcing oh-my-zsh
 autoload -Uz compinit
 compinit
 
-# Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# Load aliases from separate file
+# Aliases & secrets
 [ -f ~/.aliases ] && source ~/.aliases
+[ -f ~/.secrets ] && source ~/.secrets
 
-# Editor configuration
+# Editor
 export EDITOR='cursor'
 export VISUAL='cursor'
 
-# Load secrets file
-[ -f ~/.secrets ] && source ~/.secrets
+# Ruby (rbenv via Homebrew)
+export RBENV_ROOT=/opt/homebrew/opt/rbenv
+if [ -d "$RBENV_ROOT" ]; then
+  export PATH="$RBENV_ROOT/bin:$PATH"
+  eval "$(/opt/homebrew/opt/rbenv/bin/rbenv init - zsh)"
+fi
 
-# Node.js environment with NVM lazy loading
+# Node (nvm via Homebrew)
 export NVM_DIR="$HOME/.nvm"
-# Lazy load nvm for faster shell startup
-nvm() {
-    unset -f nvm
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    nvm "$@"
-}
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
-# Python environment with lazy loading
+# Python (pyenv, lazy-loaded)
 export PATH="$HOME/.pyenv/bin:$PATH"
 pyenv() {
     unset -f pyenv
@@ -88,11 +81,32 @@ pyenv() {
     pyenv "$@"
 }
 
-# Additional PATH configurations
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# Cargo / Rust
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# Nix
+[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ] && \
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+
+# direnv
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+
+# Docker CLI completions
+fpath=($HOME/.docker/completions $fpath)
+
+# Editor CLIs on PATH
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export PATH="$PATH:/Applications/Cursor.app/Contents/Resources/app/bin"
+export PATH="$HOME/.claude/local:$PATH"
 
-# Auto suggestions configuration
+# Autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_USE_ASYNC=true
@@ -106,8 +120,9 @@ bindkey '^[[F' end-of-line
 bindkey '^[[3~' delete-char
 bindkey '^H' backward-delete-char
 
-# Functions
+# Small utilities
 mkcd() { mkdir -p "$@" && cd "$@"; }
+
 extract() {
     if [ -f $1 ]; then
         case $1 in
@@ -129,14 +144,14 @@ extract() {
     fi
 }
 
-# Set terminal colors
+# Terminal colors
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
-# Load local customizations if they exist
+# Machine-local overrides (not tracked)
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-# fzf configurations
+# fzf
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="
   --height 40%
@@ -144,19 +159,14 @@ export FZF_DEFAULT_OPTS="
   --border
   --preview 'bat --style=numbers --color=always --line-range :500 {}'
 "
-
-# fzf key bindings and completion
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Custom fzf functions
-# Search and edit file
 fe() {
   local file
   file=$(fzf --query="$1" --select-1 --exit-0)
   [ -n "$file" ] && ${EDITOR:-cursor} "$file"
 }
 
-# Search git branches
 fbr() {
   local branches branch
   branches=$(git branch -a) &&
@@ -164,7 +174,6 @@ fbr() {
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
-# Search git commits
 fco() {
   local commits commit
   commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
@@ -172,12 +181,10 @@ fco() {
   git checkout $(echo "$commit" | sed "s/ .*//")
 }
 
-# Search command history
 fh() {
   eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
 
-# Enhanced folder search with automatic home directory scanning
 function fd() {
     local dir
     dir=$(find $HOME/* -maxdepth 3 \
@@ -194,3 +201,25 @@ function fd() {
             --prompt="🔍 ")
     [ -n "$dir" ] && cd "$dir"
 }
+
+# AWS SSM session to the adreel-app EC2 instance
+adreel() {
+  local region="us-east-1"
+  local profile="${AWS_PROFILE:-adreel}"
+  local id
+  id="$(AWS_PAGER="" aws --profile "$profile" --region "$region" ec2 describe-instances \
+    --filters "Name=tag:Name,Values=adreel-app" "Name=instance-state-name,Values=running" \
+    --query "Reservations[0].Instances[0].InstanceId" --output text)"
+
+  if [[ -z "$id" || "$id" == "None" ]]; then
+    echo "No running EC2 instance found with tag Name=adreel-app in $region (profile=$profile)"
+    return 1
+  fi
+
+  AWS_PAGER="" aws --profile "$profile" --region "$region" ssm start-session --target "$id"
+}
+
+# Railway SSH / console helpers — expect tokens exported from ~/.secrets
+alias adreel_ssh='cd ~/projects/boilerplate && RAILWAY_API_TOKEN=$ADREEL_RAILWAY_TOKEN railway ssh --service web'
+alias adreel_rails_c='cd ~/projects/boilerplate && RAILWAY_API_TOKEN=$ADREEL_RAILWAY_TOKEN railway ssh --service web'
+alias promptzone_ssh='cd ~/projects/promptzone_community && RAILWAY_API_TOKEN=$PROMPTZONE_RAILWAY_TOKEN railway ssh --service web'

@@ -1,60 +1,133 @@
-# Taps (only include necessary ones)
+# Generated from `brew bundle dump` on this machine.
+# To sync a new Mac: `brew bundle --file=Brewfile`
+
+tap "aquasecurity/trivy"
+tap "derailed/k9s"
+tap "heroku/brew"
 tap "homebrew/bundle"
 tap "homebrew/services"
+tap "puma/puma"
+tap "teamookla/speedtest"
 
-# CLI Tools
-brew "git"
-brew "wget"
-brew "curl"
-brew "tree"
-brew "jq"
-brew "mas"
-brew "tree"
-brew "biome"
-brew "btop"
-brew "htop"
-brew "tmux"
-brew "fzf"
-brew "ripgrep"
-brew "fd"
+# CLI tools
+brew "act"
+brew "aircrack-ng"
+brew "autoconf"
+brew "automake"
 brew "bat"
-brew "exa"
+brew "biome"
+brew "bison"
+brew "btop"
+brew "cmocka"
+brew "codex"
+brew "curl"
+brew "direnv"
+brew "dnsmasq"
+brew "duti"
+brew "fd"
+brew "flyctl"
+brew "fzf"
+brew "gdbm"
+brew "gh"
+brew "git"
+brew "git-filter-repo"
+brew "go"
+brew "helm"
+brew "htop"
+brew "hwloc"
+brew "imagemagick"
+brew "jemalloc"
+brew "jq"
+brew "k6"
+brew "lazygit"
+brew "libffi"
+brew "libpcap"
+brew "libtool"
+brew "libyaml"
+brew "mas"
+brew "mkcert"
+brew "nginx"
+brew "openssl@3"
+brew "pcre2"
+brew "pgvector"
+brew "phrase-cli"
+brew "pkgconf"
+brew "ripgrep"
+brew "shtool"
+brew "socat"
+brew "stripe-cli"
+brew "terraform"
+brew "tmux"
+brew "tree"
+brew "vips"
+brew "watch"
+brew "wget"
+brew "xz"
+brew "yamllint"
+brew "zlib"
 
-# window manager
-cask "alt-tab"  
+# Third-party taps
+brew "aquasecurity/trivy/trivy"
+brew "derailed/k9s/k9s"
+brew "heroku/brew/heroku"
+brew "puma/puma/puma-dev"
+brew "teamookla/speedtest/speedtest"
 
-# Development
+# Language toolchains
 brew "node"
-brew "yarn"
-brew "python"
+brew "nvm"
 brew "pyenv"
+brew "python@3.11"
+brew "python@3.13", link: false
 brew "rbenv"
-brew "postgresql", restart_service: true
-brew "redis", restart_service: true
-brew "gh"  # GitHub CLI
-brew "duti"  # Set default applications
+brew "ruby"
+brew "ruby-build"
+brew "ruby-install"
+brew "railway"
+brew "yarn"
 
-# Docker and related tools
-cask "docker"  # This installs Docker Desktop which includes docker-compose
+# Databases & services
+brew "postgresql@14", link: false
+brew "postgresql@16"
+brew "postgresql@18", restart_service: :changed, link: true
+brew "redis", restart_service: :changed
 
-# Applications
-cask "iterm2"
-cask "cursor"
-cask "google-chrome"
-cask "slack"
+# Apps
 cask "1password"
-cask "raycast"
-cask "figma"
-cask "spotify"
-cask "raycast"
-cask "telegram"
 cask "alt-tab"
 cask "anki"
+cask "bruno"
+cask "cursor"
+cask "docker"
+cask "figma"
+cask "google-chrome"
 cask "hiddenbar"
+cask "iterm2"
 cask "ledger-live"
+cask "ledger-wallet"
+cask "ngrok"
+cask "orbstack"
+cask "raycast"
+cask "session-manager-plugin"
+cask "slack"
+cask "spotify"
+cask "telegram"
 cask "whatsapp"
-
 
 # Fonts
 cask "font-fira-code"
-cask "font-hack-nerd-font" 
+cask "font-hack-nerd-font"
+
+# Cursor / VS Code extensions
+vscode "anthropic.claude-code"
+vscode "anysphere.remote-ssh"
+vscode "bbenoist.nix"
+vscode "biomejs.biome"
+vscode "bradlc.vscode-tailwindcss"
+vscode "eamodio.gitlens"
+vscode "ms-azuretools.vscode-docker"
+vscode "openai.chatgpt"
+vscode "pkief.material-icon-theme"
+vscode "redhat.vscode-yaml"
+vscode "shopify.ruby-lsp"
+vscode "sianglim.slim"
