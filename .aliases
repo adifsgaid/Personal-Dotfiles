@@ -242,7 +242,21 @@ function buildtag {
 alias builds='gh workflow view "Build and push"'
 alias deploys='gh workflow view "Deploy"'
 
-alias bastion='ssh yoojo-bastion'
+bastion() {
+  # PROD warning. Red pane background via OSC 11 — works in native Ghostty/iTerm, and in
+  # cmux once it ships PR #3886 (merged 2026-06-01; no-op on builds before that). Plus a
+  # full-width red banner (SGR) that renders everywhere as an immediate cue.
+  local cols=${COLUMNS:-80}
+  local label="   PRODUCTION  —  yoojo-bastion   "
+  printf '\033]11;#7a0000\007'
+  print -P ""
+  print -P "%K{red}${(r:$cols:)}%k"
+  print -P "%K{red}%F{white}%B${(r:$cols:)label}%b%f%k"
+  print -P "%K{red}${(r:$cols:)}%k"
+  print -P ""
+  TERM=xterm-256color ssh yoojo-bastion
+  printf '\033]111\007'
+}
 alias prod='bastion'
 
 cp_prod() {

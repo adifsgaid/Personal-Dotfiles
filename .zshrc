@@ -60,12 +60,7 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR='cursor'
 export VISUAL='cursor'
 
-# Ruby (rbenv via Homebrew)
-export RBENV_ROOT=/opt/homebrew/opt/rbenv
-if [ -d "$RBENV_ROOT" ]; then
-  export PATH="$RBENV_ROOT/bin:$PATH"
-  eval "$(/opt/homebrew/opt/rbenv/bin/rbenv init - zsh)"
-fi
+# Ruby (rbenv via Homebrew) — initialized in ~/.zshenv so all shells (incl. LSP) get it.
 
 # Node (nvm via Homebrew)
 export NVM_DIR="$HOME/.nvm"
@@ -219,10 +214,74 @@ adreel() {
   AWS_PAGER="" aws --profile "$profile" --region "$region" ssm start-session --target "$id"
 }
 
+function gate() {
+  local port=18789
+  local pid
+  pid=$(lsof -nP -iTCP:$port -sTCP:LISTEN -t 2>/dev/null | head -1)
+
+  # Probe le tunnel pour detecter les sockets zombies (process ssh vivant mais
+  # connexion distante crevee apres veille/changement reseau).
+  local tunnel_alive=0
+  if [[ -n "$pid" ]] && ps -p "$pid" -o command= 2>/dev/null | grep -q "ssh .*-L $port:127.0.0.1:$port.* macmini"; then
+    if curl -sS -m 3 -o /dev/null "http://localhost:$port/" 2>/dev/null; then
+      tunnel_alive=1
+    fi
+  fi
+
+  if [[ "$tunnel_alive" -eq 1 ]]; then
+    echo "SSH tunnel already open (pid $pid) — reusing."
+  else
+    if [[ -n "$pid" ]]; then
+      echo "Port $port busy (pid $pid) or tunnel dead, replacing..."
+      kill "$pid" 2>/dev/null
+      while lsof -nP -iTCP:$port -sTCP:LISTEN -t >/dev/null 2>&1; do sleep 0.2; done
+    else
+      echo "Opening SSH tunnel to Mac Mini (port $port)..."
+    fi
+    # ServerAlive* : SSH detecte tout seul la mort de la session apres ~30s.
+    # ExitOnForwardFailure : exit si le port forward echoue (port deja pris).
+    ssh -N -f -o ServerAliveInterval=15 -o ServerAliveCountMax=2 \
+      -o ExitOnForwardFailure=yes -L $port:127.0.0.1:$port macmini
+  fi
+  open -a "Google Chrome" "http://localhost:$port/"
+}
+
 # Railway SSH / console helpers — expect tokens exported from ~/.secrets
 alias adreel_ssh='cd ~/projects/boilerplate && RAILWAY_API_TOKEN=$ADREEL_RAILWAY_TOKEN railway ssh --service web'
 alias adreel_rails_c='cd ~/projects/boilerplate && RAILWAY_API_TOKEN=$ADREEL_RAILWAY_TOKEN railway ssh --service web'
 alias promptzone_ssh='cd ~/projects/promptzone_community && RAILWAY_API_TOKEN=$PROMPTZONE_RAILWAY_TOKEN railway ssh --service web'
+
+# Created by `pipx` on 2026-06-18 08:05:56
+export PATH="$PATH:/Users/adifsgaid/.local/bin"
+
+if [ -n "$RBENV_ROOT" ] && [ -d "$RBENV_ROOT/shims" ]; then
+  export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
+fi
+
+# --- Kupp Railway consoles -------------------------------------------------
+# Rails console on Railway. Requires the railway-kupp SSH key to be registered
+# on the it-kupp Railway account (Account Settings -> SSH Keys), and
+# KUPP_RAILWAY_TOKEN in ~/.secrets (loaded by the repo's .envrc via direnv).
+#
+# Project is passed explicitly so these work from any directory;
+# KUPP_RAILWAY_PROJECT is exported from ~/.zshrc.local (not tracked).
+
+kupp-prod() {
+  railway ssh --project "$KUPP_RAILWAY_PROJECT" \
+    --environment production --service web \
+    "${@:-bundle exec rails console}"
+}
+
+kupp-stg() {
+  railway ssh --project "$KUPP_RAILWAY_PROJECT" \
+    --environment staging --service web-staging \
+    "${@:-bundle exec rails console}"
+}
+
+# Non-interactive one-liners, e.g.  kupp-prod-run "puts User.count"
+kupp-prod-run() { kupp-prod "bundle exec rails runner \"$*\""; }
+kupp-stg-run()  { kupp-stg  "bundle exec rails runner \"$*\""; }
+# ---------------------------------------------------------------------------
 
 # GitHub preview environments for the current branch (run from the repo)
 function preview {
