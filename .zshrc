@@ -223,3 +223,16 @@ adreel() {
 alias adreel_ssh='cd ~/projects/boilerplate && RAILWAY_API_TOKEN=$ADREEL_RAILWAY_TOKEN railway ssh --service web'
 alias adreel_rails_c='cd ~/projects/boilerplate && RAILWAY_API_TOKEN=$ADREEL_RAILWAY_TOKEN railway ssh --service web'
 alias promptzone_ssh='cd ~/projects/promptzone_community && RAILWAY_API_TOKEN=$PROMPTZONE_RAILWAY_TOKEN railway ssh --service web'
+
+# GitHub preview environments for the current branch (run from the repo)
+function preview {
+  local branch=$(git branch --show-current)
+  echo "Deploy '$branch' on preview"
+  gh workflow run "Deploy preview" --ref "$branch" "$@"
+}
+
+function unpreview {
+  local branch=$(git branch --show-current)
+  echo "Teardown preview of '$branch'"
+  gh workflow run "Teardown preview" -F branch="$branch"
+}
